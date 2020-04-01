@@ -6,7 +6,7 @@ module.exports = {
   extends: ["eslint-config-airbnb-base"],
   rules: {
     "linebreak-style": ["error", "windows"],
-    quotes: ["error", "double", { allowTemplateLiterals: true }],
+    quotes: ["error", "single", { allowTemplateLiterals: true }],
     semi: ["error", "never"],
     "no-console": "off",
     "no-use-before-define": ["error", { functions: false, variables: false }],
