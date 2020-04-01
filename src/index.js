@@ -2,6 +2,7 @@ class Keyboard {
   constructor() {
     this.language = 1
     this.capsLock = false
+    this.textarea = null
     this.value = ''
     this.main = null
     this.keysContainer = null
@@ -10,6 +11,8 @@ class Keyboard {
   init() {
     this.main = document.createElement('div')
     this.keysContainer = document.createElement('div')
+
+    document.body.prepend(this.renderTextarea())
 
     this.main.classList.add('keyboard')
     this.keysContainer.classList.add('keyboard__keys')
@@ -112,8 +115,13 @@ class Keyboard {
         fragment.appendChild(document.createElement('br'))
       }
     })
-
     return fragment
+  }
+
+  renderTextarea() {
+    this.textarea = document.createElement('textarea')
+    this.textarea.classList.add('textarea')
+    return this.textarea
   }
 }
 
