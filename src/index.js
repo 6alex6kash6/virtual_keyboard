@@ -2,8 +2,7 @@ class Keyboard {
   constructor() {
     this.language = 1
     this.capsLock = false
-    this.textarea = null
-    this.value = ''
+    this.textarea = document.createElement('textarea')
     this.main = null
     this.keysContainer = null
   }
@@ -20,7 +19,11 @@ class Keyboard {
     this.keysContainer.appendChild(this.renderKeyboard())
     this.main.appendChild(this.keysContainer)
     document.body.appendChild(this.main)
-    console.log('sss')
+  }
+
+  renderTextarea() {
+    this.textarea.classList.add('textarea')
+    return this.textarea
   }
 
   renderKeyboard() {
@@ -86,6 +89,9 @@ class Keyboard {
         case 'Backspace':
           keyElement.classList.add('keyboard__key--wide')
           keyElement.innerText = 'Backspace'
+          keyElement.addEventListener('click', () => {
+            this.textarea.value = this.textarea.value.substring(0, this.textarea.value.length - 1)
+          })
           break
         case 'Caps Lock':
           keyElement.classList.add('keyboard__key--wide')
@@ -94,12 +100,15 @@ class Keyboard {
         case 'space':
           keyElement.classList.add('keyboard__key--extra--wide')
           keyElement.innerText = '_________'
+          keyElement.addEventListener('click', () => {
+            this.textarea.value += ' '
+          })
           break
         case 'Enter':
           keyElement.classList.add('keyboard__key--wide')
           keyElement.innerText = 'Enter'
           keyElement.addEventListener('click', () => {
-            this.value += '/n'
+            this.textarea.value += '\n'
           })
           break
         case 'Shift':
@@ -108,6 +117,9 @@ class Keyboard {
           break
         default:
           keyElement.textContent = key.toLowerCase()
+          keyElement.addEventListener('click', () => {
+            this.textarea.value += key
+          })
           break
       }
       fragment.appendChild(keyElement)
@@ -116,12 +128,6 @@ class Keyboard {
       }
     })
     return fragment
-  }
-
-  renderTextarea() {
-    this.textarea = document.createElement('textarea')
-    this.textarea.classList.add('textarea')
-    return this.textarea
   }
 }
 
