@@ -5,6 +5,7 @@ class Keyboard {
     this.textarea = document.createElement('textarea')
     this.main = null
     this.keysContainer = null
+    this.keys = []
   }
 
   init() {
@@ -19,6 +20,8 @@ class Keyboard {
     this.keysContainer.appendChild(this.renderKeyboard())
     this.main.appendChild(this.keysContainer)
     document.body.appendChild(this.main)
+
+    this.keys = document.querySelectorAll('.keyboard__key')
   }
 
   renderTextarea() {
@@ -90,12 +93,19 @@ class Keyboard {
           keyElement.classList.add('keyboard__key--wide')
           keyElement.innerText = 'Backspace'
           keyElement.addEventListener('click', () => {
-            this.textarea.value = this.textarea.value.substring(0, this.textarea.value.length - 1)
+            this.textarea.value = this.textarea.value.substring(
+              0,
+              this.textarea.value.length - 1,
+            )
           })
           break
         case 'Caps Lock':
           keyElement.classList.add('keyboard__key--wide')
           keyElement.innerText = 'Caps Lock'
+          keyElement.addEventListener('click', () => {
+            this.toggleCapsLock()
+            keyElement.classList.toggle('keyboard__key--active')
+          })
           break
         case 'space':
           keyElement.classList.add('keyboard__key--extra--wide')
@@ -114,11 +124,19 @@ class Keyboard {
         case 'Shift':
           keyElement.classList.add('keyboard__key--wide')
           keyElement.innerText = 'Shift'
+          keyElement.addEventListener('mousedown', () => {
+            this.keys.forEach(() => {
+              keyElement.textContent.toUpperCase()
+            })
+            console.log('ff')
+          })
           break
         default:
           keyElement.textContent = key.toLowerCase()
           keyElement.addEventListener('click', () => {
-            this.textarea.value += key
+            this.textarea.value += this.capsLock
+              ? key.toUpperCase()
+              : key.toLowerCase()
           })
           break
       }
@@ -128,6 +146,18 @@ class Keyboard {
       }
     })
     return fragment
+  }
+
+  toggleCapsLock() {
+    this.capsLock = !this.capsLock
+
+    for (const key of this.keys) {
+      if (key.childElementCount === 0) {
+        key.textContent = this.capsLock
+          ? key.textContent.toUpperCase()
+          : key.textContent.toLowerCase()
+      }
+    }
   }
 }
 
